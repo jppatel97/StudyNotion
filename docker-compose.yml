@@ -1,0 +1,33 @@
+version: '3.8'
+services:
+  frontend:
+    build: ./src
+    ports:
+      - "3000:3000"
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - backend
+  backend:
+    build: ./server
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - MONGODB_URL=mongodb+srv://pateljeet97:jeet2004@cluster0.us56jck.mongodb.net/studyNotion
+      - JWT_SECRET=Jp
+      - CLOUD_NAME=duqywfek4
+      - API_KEY=995596151951682
+      - API_SECRET=jy4YmlX3e3TV6do250XH1z9nN1Y
+      - RAZORPAY_KEY=rzp_test_MmriEQcqO28yCT
+      - RAZORPAY_SECRET=y7dIHnrYTX6cji03hiQ8to65
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+volumes:
+  mongo-data: 
