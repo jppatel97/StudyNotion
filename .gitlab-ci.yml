@@ -30,17 +30,22 @@ build_backend:
 
 deploy:
   stage: deploy
-  image: ubuntu:20.04
+  image: alpine:latest
   before_script:
-    - apt-get update && apt-get install -y curl unzip openssh-client
-    - curl -fsSL https://releases.hashicorp.com/terraform/1.8.4/terraform_1.8.4_linux_amd64.zip -o terraform.zip
-    - unzip -o terraform.zip
-    - mv terraform /usr/local/bin/
-    - terraform -version
-    - mkdir -p ~/.ssh
-    - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-    - chmod 600 ~/.ssh/id_rsa
+    - apk add --no-cache openssh
   script:
-    - cd terraform
-    - terraform init
-    - terraform apply -auto-approve -var="frontend_image=$FRONTEND_IMAGE" -var="backend_image=$BACKEND_IMAGE"
+    - echo "$SSH_PRIVATE_KEY" > id_rsa && chmod 600 id_rsa
+    - |
+      ssh -o StrictHostKeyChecking=no -i id_rsa ec2-user@$EC2_HOST "
+        docker login registry.gitlab.com -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD &&
+        docker pull $CI_REGISTRY_IMAGE/frontend:$CI_COMMIT_SHORT_SHA &&
+        docker pull $CI_REGISTRY_IMAGE/backend:$CI_COMMIT_SHORT_SHA &&
+        docker stop frontend || true &&
+        docker rm frontend || true &&
+        docker stop backend || true &&
+        docker rm backend || true &&
+        docker run -d --name frontend -p 80:80 $CI_REGISTRY_IMAGE/frontend:$CI_COMMIT_SHORT_SHA &&
+        docker run -d --name backend -p 5000:5000 $CI_REGISTRY_IMAGE/backend:$CI_COMMIT_SHORT_SHA
+      "
+  only:
+    - main
