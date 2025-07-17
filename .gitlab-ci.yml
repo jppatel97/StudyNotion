@@ -30,12 +30,17 @@ build_backend:
 
 deploy:
   stage: deploy
-  image: hashicorp/terraform:latest
+  image: ubuntu:20.04
   before_script:
+    - apt-get update && apt-get install -y curl unzip openssh-client
+    - curl -fsSL https://releases.hashicorp.com/terraform/1.8.4/terraform_1.8.4_linux_amd64.zip -o terraform.zip
+    - unzip terraform.zip
+    - mv terraform /usr/local/bin/
+    - terraform -version
     - mkdir -p ~/.ssh
     - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
     - chmod 600 ~/.ssh/id_rsa
   script:
     - cd terraform
     - terraform init
-    - terraform apply -auto-approve -var="frontend_image=$FRONTEND_IMAGE" -var="backend_image=$BACKEND_IMAGE" 
+    - terraform apply -auto-approve -var="frontend_image=$FRONTEND_IMAGE" -var="backend_image=$BACKEND_IMAGE"
