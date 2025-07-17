@@ -5,4 +5,6 @@ variable "region" {
 }
 variable "ec2_host" {
   default = "13.204.65.121"
-} 
+}
+variable "frontend_image" {}
+variable "backend_image" {} 

@@ -15,10 +15,10 @@ resource "aws_instance" "mern_app" {
 
   provisioner "remote-exec" {
     inline = [
-      "sudo docker pull $CI_REGISTRY_IMAGE/frontend:$CI_COMMIT_SHORT_SHA",
-      "sudo docker pull $CI_REGISTRY_IMAGE/backend:$CI_COMMIT_SHORT_SHA",
-      "sudo docker run -d -p 3000:3000 $CI_REGISTRY_IMAGE/frontend:$CI_COMMIT_SHORT_SHA",
-      "sudo docker run -d -p 5000:5000 $CI_REGISTRY_IMAGE/backend:$CI_COMMIT_SHORT_SHA"
+      "sudo docker pull ${var.frontend_image}",
+      "sudo docker pull ${var.backend_image}",
+      "sudo docker run -d -p 3000:3000 ${var.frontend_image}",
+      "sudo docker run -d -p 5000:5000 ${var.backend_image}"
     ]
 
     connection {

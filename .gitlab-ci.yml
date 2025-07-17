@@ -34,4 +34,4 @@ deploy:
   script:
     - cd terraform
     - terraform init
-    - terraform apply -auto-approve 
+    - terraform apply -auto-approve -var="frontend_image=$FRONTEND_IMAGE" -var="backend_image=$BACKEND_IMAGE" 
