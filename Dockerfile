@@ -1,15 +1,12 @@
-# Stage 1 - Build
+# Stage 1: Build React app
 FROM node:18-alpine as build
 WORKDIR /app
-COPY package.json package-lock.json ./
-COPY src ./src
-COPY public ./public
-COPY tailwind.config.js ./
-COPY .env.production ./
+COPY package*.json ./
 RUN npm install
+COPY . .
 RUN npm run build
 
-# Stage 2 - Serve
+# Stage 2: Serve with Nginx
 FROM nginx:alpine
 COPY --from=build /app/build /usr/share/nginx/html
 EXPOSE 80

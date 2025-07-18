@@ -1,5 +1,5 @@
 const otpTemplate = (otp) => {
-	return `<!DOCTYPE html>
+  return `<!DOCTYPE html>
 	<html>
 	
 	<head>
@@ -23,11 +23,15 @@ const otpTemplate = (otp) => {
 				text-align: center;
 			}
 	
-			.logo {
-				max-width: 200px;
-				margin-bottom: 20px;
-			}
-	
+				.logo {
+				  width: 60px;
+				  height: 60px;
+				  border-radius: 50%;
+				  display: block;
+				  margin: 0 auto;
+				}
+			
+			  
 			.message {
 				font-size: 18px;
 				font-weight: bold;
@@ -66,8 +70,15 @@ const otpTemplate = (otp) => {
 	
 	<body>
 		<div class="container">
-			<a href="https://studynotion-edtech-project.vercel.app"><img class="logo"
-					src="https://i.ibb.co/7Xyj3PC/logo.png" alt="StudyNotion Logo"></a>
+			<a href="https://studynotion-edtech-project.vercel.app">
+				<img 
+				  class="logo"
+				  src="https://res.cloudinary.com/dbaczlj75/image/upload/rzp_logo_ghwnas.png" 
+				  alt="StudyNotion Logo"
+				/>
+			  </a>
+			  
+			  
 			<div class="message">OTP Verification Email</div>
 			<div class="body">
 				<p>Dear User,</p>

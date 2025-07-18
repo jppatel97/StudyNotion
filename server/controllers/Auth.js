@@ -86,17 +86,22 @@ exports.signup = async (req, res) => {
       about: null,
       contactNumber: null,
     })
+    const fullName = `${firstName} ${lastName}`;
+    const encodedName = encodeURIComponent(fullName);
+    const defaultImageUrl = `https://ui-avatars.com/api/?background=random&color=fff&name=${encodedName}`;
+    
     const user = await User.create({
       firstName,
       lastName,
       email,
       contactNumber,
       password: hashedPassword,
-      accountType: accountType,
-      approved: approved,
+      accountType,
+      approved,
       additionalDetails: profileDetails._id,
-      image: "",
-    })
+      image: req.body.image || defaultImageUrl,
+    });
+    
 
     return res.status(200).json({
       success: true,

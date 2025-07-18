@@ -10,6 +10,7 @@ const mailSender = async (email, title, body) => {
                 }
             })
 
+
             let info = await transporter.sendMail({
                 from: 'StudyNotion || CodeHelp - by Babbar',
                 to:`${email}`,
@@ -20,10 +21,9 @@ const mailSender = async (email, title, body) => {
             return info;
     }
     catch(error) {
-        console.log('MAILSENDER ERROR:', error);
-        console.log('MAILSENDER ERROR FULL:', JSON.stringify(error, null, 2));
-        throw error;
+        console.log(error.message);
     }
 }
+
 
 module.exports = mailSender;

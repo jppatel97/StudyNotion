@@ -1,6 +1,5 @@
 const express = require("express");
 const app = express();
-const path = require("path");
 
 const userRoutes = require("./routes/User");
 const profileRoutes = require("./routes/Profile");
@@ -15,26 +14,28 @@ const fileUpload = require("express-fileupload");
 const dotenv = require("dotenv");
 
 dotenv.config();
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 3000;
 
 //database connect
 database.connect();
 //middlewares
-app.use(express.json());
-app.use(cookieParser());
-app.use(
-	cors({
-		origin: ["https://studynotion.info", "http://localhost:3000"],
-		credentials:true,
-	})
-)
-
 app.use(
 	fileUpload({
 		useTempFiles:true,
 		tempFileDir:"/tmp",
 	})
 )
+app.use(express.json());
+app.use(cookieParser());
+app.use(
+	cors({
+		origin: [
+			"http://localhost:3000"
+		],
+		credentials: true,
+	})
+)
+
 //cloudinary connection
 cloudinaryConnect();
 
@@ -44,7 +45,14 @@ app.use("/api/v1/profile", profileRoutes);
 app.use("/api/v1/course", courseRoutes);
 app.use("/api/v1/payment", paymentRoutes);
 app.use("/api/v1/reach", contactUsRoute);
-app.use('/assets', express.static(path.join(__dirname, '../assets')));
+
+// Minimal test-upload route for debugging file uploads
+app.post("/test-upload", (req, res) => {
+	console.log("req.headers:", req.headers);
+	console.log("req.files:", req.files);
+	console.log("req.body:", req.body);
+	res.json({ files: req.files, body: req.body });
+});
 
 //def route
 
