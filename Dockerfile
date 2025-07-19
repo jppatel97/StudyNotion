@@ -5,6 +5,8 @@ COPY package*.json ./
 RUN npm install
 COPY . .
 RUN chmod +x node_modules/.bin/react-scripts || true
+# Force rebuild by adding timestamp
+RUN echo "Build timestamp: $(date)" > build-info.txt
 RUN npm run build
 
 # Stage 2: Serve with Nginx
