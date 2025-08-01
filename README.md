@@ -1,4 +1,9 @@
-Live Demo:https://studynotion.info/
+Live Demo: https://studynotion.info/
+
+
+<img width="1919" height="831" alt="Screenshot 2025-08-01 132636" src="https://github.com/user-attachments/assets/d26d37eb-8fa0-4fee-adac-bb71554b3af6" />
+
+
 # StudyNotion
 StudyNotion - A full-featured MERN stack online learning platform with Docker, GitLab CI/CD, and production deployment. Features user authentication, course management, payments, and responsive UI.
 
